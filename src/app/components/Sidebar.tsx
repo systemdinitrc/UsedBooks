@@ -2,16 +2,34 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 import { isActivePath, navigationItems } from "./Nav";
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  // maybe i can make this better
+  const handleLogoClick = () => {
+    if (!isAnimating) {
+      setIsAnimating(true);
+      setTimeout(() => setIsAnimating(false), 300);
+    }
+  };
 
   return (
     <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col gap-3 border-r-[3px] border-foreground bg-background px-6 py-8 lg:flex">
-      <Link href="/" className="mb-6 block rounded-md focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white">
-        <span className="font-display text-4xl font-bold italic text-foreground">Kiddies</span>
+      <Link 
+        href="/" 
+        onClick={handleLogoClick}
+        className="mb-6 block w-fit rounded-md focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white"
+      >
+        <span className={`font-display text-4xl font-bold italic text-foreground inline-block transition-transform duration-300 ${
+            isAnimating ? "scale-125 -rotate-6" : "hover:scale-105"
+          }`}>
+          Kiddies
+        </span>
       </Link>
 
       <nav aria-label="Primary navigation" className="flex flex-col gap-3">

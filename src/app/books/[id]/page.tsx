@@ -14,6 +14,15 @@ interface BookPageProps {
   params: Promise<{ id: string }>;
 }
 
+const cardTones = [
+  "bg-tint-lavender",
+  "bg-tint-pink",
+  "bg-tint-peach",
+  "bg-tint-mint",
+  "bg-tint-sky",
+  "bg-tint-sun",
+] as const;
+
 const getCachedBook = cache((bookId: number) => getBook(bookId));
 
 function parseBookId(id: string): number | null {
@@ -45,6 +54,8 @@ export default async function BookPage({ params }: BookPageProps) {
     notFound();
   }
 
+  const tone = cardTones[book.book_id % cardTones.length];
+
   const currentPrice = book.highest_bid ?? book.suggested_price;
   const minimumBid = Number((currentPrice + 0.01).toFixed(2));
   const coverImage = book.images[0]?.image_path ?? null;
@@ -60,14 +71,14 @@ export default async function BookPage({ params }: BookPageProps) {
         <div className="brutal-card relative flex aspect-square items-center justify-center overflow-hidden bg-white p-8">
           <div
             aria-hidden
-            className="absolute left-1/2 top-1/2 h-3/4 w-3/4 -translate-x-1/2 -translate-y-1/2 rounded-[45%_55%_60%_40%/50%_40%_60%_50%] bg-tint-lavender"
+            className={`absolute left-1/2 top-1/2 h-3/4 w-3/4 -translate-x-1/2 -translate-y-1/2 rounded-[45%_55%_60%_40%/50%_40%_60%_50%] ${tone}`}
           />
           <div className="brutal-frame relative h-64 w-44 overflow-hidden bg-white sm:h-80 sm:w-56">
             <BookCover imagePath={coverImage} title={book.title} sizes="(max-width: 1024px) 224px, 256px" />
           </div>
         </div>
 
-        <article className="brutal-card bg-tint-lavender p-6 sm:p-8">
+        <article className={`brutal-card p-6 sm:p-8 ${tone}`}>
           <p className="text-sm font-bold text-foreground/75">{book.author}</p>
           <h1 className="mt-3 font-display text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
             {book.title}

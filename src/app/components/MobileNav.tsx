@@ -11,8 +11,7 @@ export default function MobileNav() {
   return (
     <nav
       aria-label="Primary navigation"
-      className="fixed inset-x-0 bottom-4 z-30 mx-auto flex w-[min(92%,22rem)] items-center justify-around rounded-3xl border-[3px] border-foreground bg-white px-3 py-2 shadow-[6px_6px_0_0_var(--brand-navy)] lg:hidden"
-    >
+      className="fixed inset-x-0 bottom-4 z-30 mx-auto flex w-[min(92%,22rem)] items-center justify-around rounded-3xl border-[3px] border-foreground bg-white px-3 py-2 shadow-[6px_6px_0_0_var(--brand-navy)] lg:hidden">
       {navigationItems.map(({ href, icon: Icon, label }) => {
         const active = isActivePath(pathname, href);
 
