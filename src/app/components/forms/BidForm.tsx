@@ -1,28 +1,28 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type SubmitEvent } from "react";
+import { useFormStatus } from "react-dom";
 import { useRouter } from "next/navigation";
 import { Gavel } from "lucide-react";
-
 import type { ApiResponse } from "@/lib/types/api";
+import { SubmitButton } from "../SubmitButton";
 
 interface BidFormProps {
   bookId: number;
   minimumBid: number;
 }
-
 export function BidForm({ bookId, minimumBid }: BidFormProps) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // 1. Add a ref to control the form directly
+  const formRef = useRef<HTMLFormElement>(null);
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  // 2. Change the handler to accept FormData directly
+  async function handleAction(formData: FormData) {
     setError(null);
-    setIsSubmitting(true);
 
     try {
-      const formData = new FormData(event.currentTarget);
       const response = await fetch(`/api/books/${bookId}/bids`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -38,17 +38,17 @@ export function BidForm({ bookId, minimumBid }: BidFormProps) {
         return;
       }
 
-      event.currentTarget.reset();
+      console.log("HERE");
+      formRef.current?.reset();
       router.refresh();
+
     } catch {
       setError("Your bid could not be placed. Check your connection and try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
+    } 
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mt-8 border-t-2 border-foreground pt-6">
+    <form ref={formRef} action={handleAction} className="mt-8 border-t-2 border-foreground pt-6">
       <h2 className="font-display text-2xl font-bold">Place a bid</h2>
       <p className="mt-1 text-sm font-medium text-foreground/70">
         Bids start at ${minimumBid.toFixed(2)}.
@@ -85,14 +85,12 @@ export function BidForm({ bookId, minimumBid }: BidFormProps) {
         </p>
       ) : null}
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="brutal-btn mt-5 inline-flex items-center gap-2 bg-brand-orange px-5 py-3 font-display font-bold"
-      >
-        <Gavel aria-hidden className="h-5 w-5" strokeWidth={2.5} />
-        {isSubmitting ? "Placing bid…" : "Place bid"}
-      </button>
+      <SubmitButton
+        pendingText="Placing bid…"
+        icon={<Gavel aria-hidden className="h-5 w-5" strokeWidth={2.5} />}
+        className="mt-5 bg-brand-orange">
+        Place bid
+      </SubmitButton>
     </form>
   );
 }

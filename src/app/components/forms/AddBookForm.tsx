@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, type SubmitEvent } from "react";
 import { useRouter } from "next/navigation";
+import { SubmitButton } from "../SubmitButton";
 import { Plus } from "lucide-react";
 
 import type { ApiResponse } from "@/lib/types/api";
@@ -13,12 +14,10 @@ interface CreateBookResponse {
 export function AddBookForm() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
-    setIsSubmitting(true);
 
     try {
       const response = await fetch("/api/books", {
@@ -36,9 +35,7 @@ export function AddBookForm() {
       router.refresh();
     } catch {
       setError("Your listing could not be saved. Check your connection and try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
+    } 
   }
 
   return (
@@ -105,14 +102,13 @@ export function AddBookForm() {
         </p>
       ) : null}
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="brutal-btn mt-6 inline-flex items-center gap-2 bg-brand-orange px-5 py-3 font-display font-bold"
-      >
-        <Plus aria-hidden className="h-5 w-5" strokeWidth={2.5} />
-        {isSubmitting ? "Saving listing…" : "Publish listing"}
-      </button>
+      <SubmitButton
+        pendingText="Saving listing…"
+        icon=<Plus aria-hidden className="h-5 w-5" strokeWidth={2.5} />
+        className="mt-5 bg-brand-orange">
+        Publish listing
+      </SubmitButton>
+
     </form>
   );
 }
