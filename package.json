@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed:demo": "node scripts/seed-demo-books.mjs"
+    "seed:demo": "node mock_data_script/seed-demo-books.mjs"
   },
   "dependencies": {
     "better-sqlite3": "^12.11.1",
