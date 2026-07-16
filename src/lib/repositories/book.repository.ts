@@ -1,15 +1,7 @@
-import { getDb } from '@/lib/db/connection';
-import { initializeSchema } from '@/lib/db/schema';
+import { db } from '@/lib/db';
 import type { Book, BookSummary, BookDetail, BookImage } from '@/lib/types/book';
 
-function ensureDb() {
-  initializeSchema();
-  return getDb();
-}
-
 export function getAllBooks(): BookSummary[] {
-  const db = ensureDb();
-
   const rows = db.prepare(`
     SELECT
       b.*,
@@ -23,8 +15,6 @@ export function getAllBooks(): BookSummary[] {
 }
 
 export function getBookById(id: number): BookDetail | null {
-  const db = ensureDb();
-
   const book = db.prepare('SELECT * FROM Book WHERE book_id = ?').get(id) as Book | undefined;
   if (!book) return null;
 
@@ -42,8 +32,6 @@ export function getBookById(id: number): BookDetail | null {
 }
 
 export function createBook(data: Omit<Book, 'book_id'>): number {
-  const db = ensureDb();
-
   const result = db.prepare(
     'INSERT INTO Book (title, author, description, suggested_price) VALUES (?, ?, ?, ?)'
   ).run(data.title, data.author, data.description, data.suggested_price);
