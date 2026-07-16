@@ -3,8 +3,8 @@
 This is a Next.js application for a used book bidding platform. It allows users to view books, their descriptions, covers, suggested prices, and current bids.
 
 ## Working Demo
-[http://kiddie.0177417.xyz](http://kiddie.0177417.xyz)
-Note: Due to app running on a free vps, there is a chance it might load slow, on machine hosting this doesn't occur.
+[http://kiddie.0177417.xyz](http://kiddie.0177417.xyz)<br>
+**Note:** Due to app running on a free vps, there is a chance it might load slow, on machine hosting this doesn't occur.
 
 ## Prerequisites
 
