@@ -1,9 +1,11 @@
+import { Home, Plus, Search } from "lucide-react";
 
-import { Home, Search, BookOpen, Plus } from "lucide-react";
-export const nav = [
-	{ href: "/", label: "Home", icon: Home },
-	{ href: "/search", label: "Search", icon: Search },
-	{ href: "/library", label: "Library", icon: BookOpen },
-	{ href: "/add", label: "Add", icon: Plus },
+export const navigationItems = [
+  { href: "/", label: "Home", icon: Home },
+  { href: "/browse", label: "Browse", icon: Search },
+  { href: "/add", label: "List a book", icon: Plus },
 ] as const;
 
+export function isActivePath(pathname: string, href: string): boolean {
+  return href === "/" ? pathname === href : pathname.startsWith(href);
+}

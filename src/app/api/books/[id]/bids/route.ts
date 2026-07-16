@@ -7,8 +7,9 @@ import type { Bid } from '@/lib/types/bid';
 type RouteParams = { params: Promise<{ id: string }> };
 
 function parseBookId(id: string): number | null {
-  const parsed = parseInt(id, 10);
-  return isNaN(parsed) ? null : parsed;
+  const parsed = Number(id);
+
+  return Number.isSafeInteger(parsed) && parsed > 0 ? parsed : null;
 }
 
 export async function GET(_request: Request, { params }: RouteParams) {
@@ -29,7 +30,7 @@ export async function GET(_request: Request, { params }: RouteParams) {
       success: true,
       data: bids,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json<ApiResponse<never>>(
       { success: false, error: 'Failed to fetch bids' },
       { status: 500 }

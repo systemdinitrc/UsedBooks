@@ -8,9 +8,9 @@ type RouteParams = { params: Promise<{ id: string }> };
 export async function GET(_request: Request, { params }: RouteParams) {
   try {
     const { id } = await params;
-    const bookId = parseInt(id, 10);
+    const bookId = Number(id);
 
-    if (isNaN(bookId)) {
+    if (!Number.isSafeInteger(bookId) || bookId <= 0) {
       return NextResponse.json<ApiResponse<never>>(
         { success: false, error: 'Invalid book ID' },
         { status: 400 }
@@ -30,7 +30,7 @@ export async function GET(_request: Request, { params }: RouteParams) {
       success: true,
       data: book,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json<ApiResponse<never>>(
       { success: false, error: 'Failed to fetch book details' },
       { status: 500 }

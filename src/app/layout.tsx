@@ -1,30 +1,27 @@
-import './globals.css'
-import  Sidebar  from './components/Sidebar';
-import MobileNav from './components/MobileNav';
-export default function RootLayout({
-  children,
-}: {
-    children: React.ReactNode
-  }) {
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
 
+import { AppShell } from "./components/AppShell";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: {
+    default: "Kiddies",
+    template: "%s | Kiddies",
+  },
+  description: "A friendly marketplace for children’s books.",
+};
+
+interface RootLayoutProps {
+  children: ReactNode;
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
       <body>
-        <div className="min-h-screen bg-background">
-          <div className="flex">
-            <Sidebar />
-
-            <main className="flex-1">
-              <div className="mx-auto max-w-7xl px-6">
-                {children}
-              </div>
-
-            </main>
-          </div>
-
-          <MobileNav />
-        </div>
+        <AppShell>{children}</AppShell>
       </body>
     </html>
-  )
+  );
 }

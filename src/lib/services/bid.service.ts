@@ -8,6 +8,12 @@ export function placeBid(bookId: number, input: CreateBidInput): Bid {
   if (!book) {
     throw new Error('Book not found');
   }
+
+  const currentPrice = Math.max(book.suggested_price, book.highest_bid ?? 0);
+  if (input.bid_amount <= currentPrice) {
+    throw new Error(`Bid must be greater than ${currentPrice.toFixed(2)}`);
+  }
+
   return bidRepo.createBid(bookId, input.bidder_name, input.bid_amount);
 }
 

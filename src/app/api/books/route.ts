@@ -12,7 +12,7 @@ export async function GET() {
       success: true,
       data: books,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json<ApiResponse<never>>(
       { success: false, error: 'Failed to fetch books' },
       { status: 500 }
