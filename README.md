@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# UsedBooks Web App
 
-## Getting Started
+This is a Next.js application for a used book bidding platform. It allows users to view books, their descriptions, covers, suggested prices, and current bids.
 
-First, run the development server:
+## Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js (v20 or higher recommended)
+- `pnpm` (or `npm`)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup Instructions
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Install dependencies:**
+   Using `pnpm` (Preferred)
+   ```bash
+   pnpm install
+   ```
+   Or using `npm`:
+   ```bash
+   npm install
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Database Initialization and Seeding:**
+   The application uses a local SQLite database (`database.sqlite`). The schema is defined in `src/lib/db/schema.ts` and will be created if it doesn't exist.
+   
+   To seed the database with sample book data, run:
+   ```bash
+   pnpm seed:demo
+   # or npm run seed:demo
+   ```
+   This will execute `mock_data_script/seed-demo-books.mjs` and populate the database with demo books and bids.
 
-## Learn More
+## Execution Instructions
 
-To learn more about Next.js, take a look at the following resources:
+1. **Run the development server:**
+   ```bash
+   pnpm dev
+   # or npm run dev
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Access the application:**
+   Open [http://localhost:3000](http://localhost:3000) in your web browser.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Database schema**: Located in `src/lib/db/schema.ts`.
